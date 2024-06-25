@@ -19,7 +19,7 @@ public class UserDao {
 	public void insertUser(UserBean user) {
 		user.setRole("CUSTOMER");
 		stmt.update("insert into users (firstName,gender,email,password,role) values (?,?,?,?,?)", user.getFirstName(),
- 				user.getGender(), user.getEmail(), user.getPassword(), user.getRole());
+ 		 		user.getGender(), user.getEmail(), user.getPassword(), user.getRole());
 	}
 
 	public UserBean getUserByEmail(String email) {

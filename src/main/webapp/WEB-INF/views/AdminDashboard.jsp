@@ -10,11 +10,6 @@
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
         }
 
         h2 {
@@ -23,24 +18,7 @@
             margin-top: 20px;
         }
 
-        .menu {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .menu a {
-            display: block;
-            margin: 10px 0;
-            color: #007bff;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .menu a:hover {
-            text-decoration: underline;
-        }
-
-        a.logout {
+        a {
             display: inline-block;
             text-decoration: none;
             color: white;
@@ -48,24 +26,23 @@
             padding: 10px 20px;
             border-radius: 5px;
             transition: background-color 0.3s ease;
-            margin-top: 20px;
+            margin: 20px auto;
+            display: block;
+            width: fit-content;
         }
 
-        a.logout:hover {
+        a:hover {
             background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-<h2>Home</h2>
 
-<div class="menu">
-    <a href="listProducts">List Products</a>
-    <a href="cart">Cart</a>
-    <a href="orders">Orders</a>
-</div>
+<h2>Admin Dashboard</h2>
 
-<a href="logout" class="logout">Logout</a>
+<br><br>
+
+<a href="logout">Logout</a>
 
 </body>
 </html>

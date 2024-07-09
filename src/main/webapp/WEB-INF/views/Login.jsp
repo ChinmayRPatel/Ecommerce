@@ -62,6 +62,8 @@
 	Password: <input type="password" name="password"/><br><br>
 	<input type="submit" value="Login"/>
 </form>
+	<a href="forgetpassword" >Forget Password</a>
+	<a href="signup" >Create New Account</a>
 
 </body>
 </html>

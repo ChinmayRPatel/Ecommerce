@@ -88,5 +88,6 @@
 	<input type="password" name="password"/><br><br>
 	<input type="submit" value="Signup"/>
 </form>
+	<a href="login">Already Register </a>
 </body>
 </html>

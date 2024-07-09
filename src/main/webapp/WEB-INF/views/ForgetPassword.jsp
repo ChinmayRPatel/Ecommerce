@@ -68,7 +68,7 @@
 
 <form action="sendotp" method="post">
     Email: <input type="text" name="email"/><br>
-    <input type="submit" value="Search"/>
+    <input type="submit" value="Send OTP"/>
 </form>
 <br>
 <div class="error">${error}</div>

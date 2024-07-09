@@ -13,5 +13,6 @@ public class UserBean {
 	 String gender;
 	 String email;
 	 String password;
-	 String role; 
+	 String role;
+	 String otp;
 }

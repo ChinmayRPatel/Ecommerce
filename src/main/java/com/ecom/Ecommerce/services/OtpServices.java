@@ -1,18 +1,20 @@
 package com.ecom.Ecommerce.services;
 
 import org.springframework.stereotype.Service;
+import java.security.SecureRandom;
 
 @Service
 public class OtpServices {
 
-    public String generateOtp(){
+    private static final String CHARACTERS = "0123456789";
+    private static final int OTP_LENGTH = 6;
+    private static final SecureRandom random = new SecureRandom();
 
-        String source = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1267890";
-        String otp="";
-        for(int i = 1; i <= 6; i++){
-            int randomIndex= (int) (Math.random()*source.length());
-            otp += source.charAt(randomIndex);
+    public static String generateOTP() {
+        StringBuilder otp = new StringBuilder();
+        for (int i = 0; i < OTP_LENGTH; i++) {
+            otp.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
         }
-        return otp;
+        return otp.toString();
     }
 }

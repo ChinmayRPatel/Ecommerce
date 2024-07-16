@@ -34,6 +34,7 @@ public class UserDao {
 	public boolean verifyOtp(String email, String otp) {
 		try {
 			UserBean user = getUserByEmail(email);
+
 			if (user.getOtp().equals(otp)) {
 				return true;
 			}

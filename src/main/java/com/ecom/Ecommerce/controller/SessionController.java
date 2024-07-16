@@ -7,6 +7,7 @@ import com.ecom.Ecommerce.services.OTPStorage;
 import com.ecom.Ecommerce.services.OtpServices;
 
 import jakarta.servlet.http.HttpSession;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -36,17 +37,18 @@ public class SessionController {
 	@Autowired
 	OtpServices otpService;
 
- 	@Autowired
+	@Autowired
 	private JavaMailSender mailSender;
-    @Autowired
-    private EmailService emailService;
+	@Autowired
+	private EmailService emailService;
 
 	@GetMapping("/signup")
 	public String signup() {
 		return "Signup";// jsp open
 	}
+
 	@GetMapping("/")
-	public String home(){
+	public String home() {
 		return "Welcome";
 	}
 
@@ -54,12 +56,12 @@ public class SessionController {
 	public String signupPost(UserBean user) {
 
 		user.setPassword(encoder.encode(user.getPassword()));
-		UserBean userBean = userDao.getUserByEmail(user.getEmail());
-		if(userBean != null) {
-			System.out.println("Email is already registered");
-		}else{
-			userDao.insertUser(user);
-		}
+//		UserBean userBean = userDao.getUserByEmail(user.getEmail());
+//		if(userBean != null) {
+//			System.out.println("Email is already registered");
+//		}else{
+		userDao.insertUser(user);
+//		}
 		return "Login";
 	}
 
@@ -82,8 +84,8 @@ public class SessionController {
 			System.out.println("dbUser Found");
 
 			String encPwd = dbUser.getPassword();
-
-			if (encoder.matches(password, encPwd) == true) {
+		boolean result = encoder.matches(password, encPwd);
+			if (result == true) {
 				authStatus = true;
 				session.setAttribute("user", dbUser);
 			} else {
@@ -122,7 +124,7 @@ public class SessionController {
 	}
 
 	@PostMapping("/sendotp")
-	public String sendOtp(@RequestParam("email") String email, Model model)  throws IOException {
+	public String sendOtp(@RequestParam("email") String email, Model model) throws IOException {
 		System.out.println("email => " + email);
 		// check db -> present
 		// select * from users where email = ?
@@ -138,15 +140,16 @@ public class SessionController {
 			model.addAttribute("error", "Email Not Found");
 			return "ForgetPassword";
 		} else {
-				String otp = otpService.generateOTP();
-				System.out.println("OTP => " + otp);
-				SimpleMailMessage message = new SimpleMailMessage();
-				message.setFrom("devotees33@gmail.com");
-				message.setTo(email);
-				message.setSubject("Send otp for reset passwords");
-				message.setText("Otp is for reset passwords and valid for 10 mins OTP :- " + otp);
-				mailSender.send(message);
-				return "OTP Sent";
+			String otp = otpService.generateOTP();
+			System.out.println("OTP => " + otp);
+			userDao.updateOtp(email, otp);
+			SimpleMailMessage message = new SimpleMailMessage();
+			message.setFrom("devotees33@gmail.com");
+			message.setTo(email);
+			message.setSubject("Send otp for reset passwords");
+			message.setText("Otp is for reset passwords and valid for 10 mins OTP :- " + otp);
+			mailSender.send(message);
+			return "VerifyOtp";
 		}
 	}
 
@@ -154,19 +157,20 @@ public class SessionController {
 	public String updatePassword(UserBean userBean, Model model) {
 
 		// verify email - otp
-		boolean status = userDao.verifyOtp(userBean.getEmail(), userBean.getOtp());
-		if (status == true) {
-			// yes -> password update -> login
+			boolean status = userDao.verifyOtp(userBean.getEmail(), userBean.getOtp());
+//			UserBean user= userDao.getUserByEmail(userBean.getEmail());
+			if (status == true) {
+				// yes -> password update -> login
 
-			String password = encoder.encode(userBean.getPassword());
-			userDao.updatePassword(userBean.getEmail(), password);
-			userDao.updateOtp(userBean.getEmail(), "");
+				String password = encoder.encode(userBean.getPassword());
+				userDao.updatePassword(userBean.getEmail(), password);
+				userDao.updateOtp(userBean.getEmail(), "");
 
-			return "redirect:/login";// url
-		} else {
-			// no -> error
-			model.addAttribute("error", "Data Does not match");
-			return "VerifyOtp";
-		}
+				return "redirect:/login";// url
+			} else {
+				// no -> error
+				model.addAttribute("error", "Data Does not match");
+				return "VerifyOtp";
+			}
 	}
 }

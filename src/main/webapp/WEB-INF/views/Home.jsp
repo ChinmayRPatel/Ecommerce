@@ -60,7 +60,7 @@
 <h2>Home</h2>
 
 <div class="menu">
-    <a href="listProducts">List Products</a>
+    <a href="listproducts">List Products</a>
     <a href="cart">Cart</a>
     <a href="orders">Orders</a>
 </div>

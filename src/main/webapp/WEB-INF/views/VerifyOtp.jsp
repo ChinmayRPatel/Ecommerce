@@ -63,12 +63,12 @@
 </head>
 <body>
 <h2>Update Password</h2>
-<form>
+<form method="post" action="updatepassword">
     <label for="email">Email:</label><br>
     <input type="text" id="email" name="email"><br><br>
 
-    <label for="newPassword">New Password:</label><br>
-    <input type="password" id="newPassword" name="newPassword"><br><br>
+    <label for="password">New Password:</label><br>
+    <input type="password" id="password" name="password"><br><br>
 
     <label for="otp">OTP:</label><br>
     <input type="text" id="otp" name="otp"><br><br>

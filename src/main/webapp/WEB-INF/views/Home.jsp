@@ -61,7 +61,7 @@
 
 <div class="menu">
     <a href="listproducts">List Products</a>
-    <a href="cart">Cart</a>
+    <a href="mycart">Cart</a>
     <a href="orders">Orders</a>
 </div>
 

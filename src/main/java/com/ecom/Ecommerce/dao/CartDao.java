@@ -19,7 +19,7 @@ public class CartDao {
     JdbcTemplate stmt;
 
     public void addToCart(CartBean cartBean) {
-        stmt.update("insert into cart (productId,userId) values (?,?)", cartBean.getProductId(), cartBean.getUserId());
+        stmt.update("insert into cart (productId,userId, qty) values (?,?, ?)", cartBean.getProductId(), cartBean.getUserId(), 1);
     }
 
     public List<EProductBean> myCart(Integer userId) {
@@ -29,7 +29,28 @@ public class CartDao {
                 new BeanPropertyRowMapper<>(EProductBean.class), new Object[] { userId });
         return products;
     }
+    public int checkForExistingItem(CartBean cartBean) {
+        // select * from cart where productId = ? and userId = ?
+        try {
+            CartBean cart = stmt.queryForObject("select * from cart where productId = ? and userId = ?",
+                    new BeanPropertyRowMapper<>(CartBean.class),
+                    new Object[] { cartBean.getProductId(), cartBean.getUserId() });
+            return cart.getQty();
+        } catch (Exception e) {
+            return 0;
+        }
 
+    }
+
+
+    public void updateCart(CartBean cartBean) {
+        stmt.update("update cart set qty = ? where productId = ? and userId = ? ", cartBean.getQty(),
+                cartBean.getProductId(), cartBean.getUserId());
+    }
+
+    public void removeProduct(CartBean cart){
+        stmt.update("delete from cart where productId = ? and userId = ?", cart.getProductId(), cart.getUserId());
+    }
     // productId userId
 }
 

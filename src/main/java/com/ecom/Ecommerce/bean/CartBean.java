@@ -15,4 +15,6 @@ public class CartBean {
     int cartId;
     int productId;
     int userId;
+    int qty;
+
 }
